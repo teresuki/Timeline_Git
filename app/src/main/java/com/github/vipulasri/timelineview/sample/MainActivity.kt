@@ -23,6 +23,7 @@ import com.github.vipulasri.timelineview.sample.model.Orientation
 import com.github.vipulasri.timelineview.sample.model.TimeLineModel
 import com.github.vipulasri.timelineview.sample.model.TimelineAttributes
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -37,20 +38,12 @@ val EDIT_TASK_REQUEST = 2
 //REQUEST CODE
 
 
-
-
 class MainActivity : BaseActivity() {
 
-    //TESTING
-
-
-    //TESTING
 
     private var mDataList = ArrayList<TimeLineModel>()
     private lateinit var mLayoutManager: LinearLayoutManager
     private lateinit var mAttributes: TimelineAttributes
-
-
 
 
     var receivedTaskDes: String = ""
@@ -64,14 +57,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentViewWithoutInject(R.layout.activity_main)
 
-
-
         // Yellow Fox
-
-        //Loading Data
-
-
-        //Loading Data
 
 
         var addTaskButton = findViewById<Button>(R.id.buttonNewTask)
@@ -107,6 +93,11 @@ class MainActivity : BaseActivity() {
                 lineDashGap = dpToPx(2f)
         )
 
+        //YellowFox
+        loadData()
+        //YellowFox
+
+
         setDataListItems()
         initRecyclerView()
 
@@ -129,81 +120,37 @@ class MainActivity : BaseActivity() {
         mAttributes.orientation = Orientation.VERTICAL
 
 
-
-
-
-    }
-
-
-    //Test
-
-    override fun onStart() {
-        super.onStart()
-
-        val sharedPreferences: SharedPreferences = this.getSharedPreferences("TIMELINE", Context.MODE_PRIVATE);
-
-        fun loadSavedData()
-        {
-            val loadedItemSize : Int;
-            loadedItemSize = sharedPreferences.getInt("SAVED_SIZE", 0)
-            for(i in 0..(loadedItemSize-1) )
-            {
-                mDataList[i].date = sharedPreferences.getString("SAVED_DATE", "")
-                mDataList[i].message = sharedPreferences.getString("SAVED_MESSAGE","")
-                mDataList[i].status = OrderStatus.ACTIVE
-            }
-        }
-        loadSavedData()
-        initRecyclerView()
-
-
-
     }
 
     override fun onPause() {
         super.onPause()
+        saveData()
+    }
 
-        val sharedPreferences: SharedPreferences = this.getSharedPreferences("TIMELINE", Context.MODE_PRIVATE);
+    fun saveData() {
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-
-
-
-        //STORE DATA
-        fun setOneItem(key1: String?, value1: String?, key2: String?, value2: String?) {
-            editor.putString(key1, value1);
-            editor.putString(key2, value2);
-            editor.commit()
-        }
-        fun setItemSize(key1: String?, value1: Int?)
-        {
-            if (value1 != null) {
-                editor.putInt(key1, value1)
-            };
-        }
-        fun setAllItem(key: String?, list: List<TimeLineModel>?) {
-            val gson = Gson()
-            val json = gson.toJson(list)
-            for(i in this.mDataList.indices)
-            {
-                setOneItem("SAVED_DATE", mDataList[i].date, "SAVED_MESSAGE", mDataList[i].message)
-                Toast.makeText(this,"SAVED ITEM #" +(i+1) , LENGTH_SHORT);
-
-                if(i == (mDataList.size-1) ) setItemSize("SAVED_SIZE", mDataList.size);
-            }
-        }
-
-        //STORE DATA
-
-
-
-        //save All Data when app is terminated
-        setAllItem("TimeLine", mDataList);
+        val gson = Gson()
+        val json = gson.toJson(mDataList)
+        editor.putString("Task List", json)
+        editor.apply()
 
     }
 
+    fun loadData() {
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences("shared preferences", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val json = sharedPreferences.getString("Task List", null)
+        val type = object : TypeToken<ArrayList<TimeLineModel?>?>() {}.type
+        if (json != null) {
+            mDataList = gson.fromJson(json, type)
+        }
 
 
-
+        if (mDataList == null) {
+            val mDataList: ArrayList<TimeLineModel>
+        }
+    }
 
 
     var newTaskReceived = false
@@ -236,15 +183,14 @@ class MainActivity : BaseActivity() {
                     sortingDataListItems()
                     recyclerView.adapter = TimeLineAdapter(mDataList, mAttributes)
                 }
-            }
-            else if(resultCode == Activity.RESULT_CANCELED){
-                if(data != null){
-                    receivedTaskEditPos = data.getIntExtra("taskPosEdit", 0);
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                if (data != null) {
+                    receivedTaskEditPos = data.getIntExtra("taskPosEdit", 0)
                     newTaskReceived = true
                     mDataList.removeAt(receivedTaskEditPos)
                     sortingDataListItems()
                     recyclerView.adapter = TimeLineAdapter(mDataList, mAttributes)
-                    Toast.makeText(applicationContext, "Deleted a Task", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(applicationContext, "Deleted a Task", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -277,7 +223,6 @@ class MainActivity : BaseActivity() {
 
         }// end i
     }
-
 
 
     private fun setDataListItems() {
