@@ -32,11 +32,11 @@
     <EditText
         android:id="@+id/plainTextTaskDescription"
         android:layout_width="389dp"
-        android:layout_height="46dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
         android:ems="10"
         android:hint="Your Desciption"
-        android:inputType="text"
+        android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.137"
         app:layout_constraintStart_toStartOf="parent"

@@ -40,6 +40,9 @@ public class EditTaskActivity extends AppCompatActivity {
 
         Intent intentGetTask = getIntent();
         String getTime = intentGetTask.getStringExtra("curTaskTime");
+
+
+
         String getDescription = intentGetTask.getStringExtra("curTaskDes");
         int getPosition = intentGetTask.getIntExtra("curTaskPos", 0);
 
@@ -51,7 +54,10 @@ public class EditTaskActivity extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
         Date date = null;
         try {
-            date = dateFormat.parse(getTime);
+            if(!getTime.equals("Your Time Here"))
+            {
+                date = dateFormat.parse(getTime);
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -110,8 +116,20 @@ public class EditTaskActivity extends AppCompatActivity {
 
     private void pickTime() {
         final Calendar calendar = Calendar.getInstance();
-        int hour = currentTime.getHours();
-        int minute = currentTime.getMinutes();
+        int hour;
+        int minute;
+
+        if(currentTime != null)
+        {
+            hour = currentTime.getHours();
+            minute = currentTime.getMinutes();
+        }
+        else // If the current Task Time is null, set the clock to the current system time
+        {
+            hour = calendar.get(Calendar.HOUR_OF_DAY);
+            minute = calendar.get(Calendar.MINUTE);
+        }
+
         TimePickerDialog timePickerDialog = new TimePickerDialog(this,
                 new TimePickerDialog.OnTimeSetListener() {
                     @Override
