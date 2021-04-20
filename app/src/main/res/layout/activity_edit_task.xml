@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="156dp"
         android:contentDescription="Your Time Here"
-        android:text="Your Time Here"
+        android:text="Start Time"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/buttonSetTimeEdit"
         app:layout_constraintHorizontal_bias="0.472"
