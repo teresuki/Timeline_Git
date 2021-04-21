@@ -4,13 +4,14 @@ package com.github.vipulasri.timelineview.sample
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
-import android.widget.Toast.LENGTH_SHORT
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.vipulasri.timelineview.TimelineView
@@ -25,6 +26,8 @@ import com.github.vipulasri.timelineview.sample.model.TimelineAttributes
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -41,7 +44,7 @@ val EDIT_TASK_REQUEST = 2
 class MainActivity : BaseActivity() {
 
 
-    private var mDataList = ArrayList<TimeLineModel>()
+    var mDataList = ArrayList<TimeLineModel>()
     private lateinit var mLayoutManager: LinearLayoutManager
     private lateinit var mAttributes: TimelineAttributes
 
@@ -58,6 +61,18 @@ class MainActivity : BaseActivity() {
         setContentViewWithoutInject(R.layout.activity_main)
 
         // Yellow Fox
+
+
+
+
+        //Repeated Action here
+
+
+
+
+
+
+        //TEST
 
 
         var addTaskButton = findViewById<Button>(R.id.buttonNewTask)
@@ -98,6 +113,14 @@ class MainActivity : BaseActivity() {
         initRecyclerView()
 
 
+
+        //TEST
+
+
+
+        //TEST
+
+
         //action_example_activity.setOnClickListener { startActivity(Intent(this, ExampleActivity::class.java)) }
 
         fab_options.setOnClickListener {
@@ -115,8 +138,69 @@ class MainActivity : BaseActivity() {
 
         mAttributes.orientation = Orientation.VERTICAL
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+
+
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, TimelineAlarmManager::class.java);
+        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+
+        var startBroadcastButton = findViewById<Button>(R.id.startBroadcastButton);
+        var cancelBroadcastButton = findViewById<Button>(R.id.cancelBroadcastButton);
+
+
+        startBroadcastButton.setOnClickListener {
+            var myCalendar = Calendar.getInstance();
+            var taskHour : Int
+            taskHour = (mDataList[0].date[0].toInt() - 48)*10 + (mDataList[0].date[1].toInt() - 48)
+            var taskMinute : Int
+            taskMinute = (mDataList[0].date[3].toInt() - 48)*10 + (mDataList[0].date[4].toInt() - 48)
+            myCalendar.set(Calendar.HOUR_OF_DAY, taskHour);
+            myCalendar.set(Calendar.MINUTE, taskMinute);
+            myCalendar.set(Calendar.SECOND, 0);
+
+            startAlarm(myCalendar);
+//            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() , AlarmManager.INTERVAL_HALF_HOUR ,pendingIntent);
+        }
+
+        cancelBroadcastButton.setOnClickListener {
+            alarmManager.cancel(pendingIntent);
+        }
+
 
     }
+
+
+    //TEST
+
+    private fun startAlarm(c: Calendar) {
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, AlertReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0)
+        if (c.before(Calendar.getInstance())) {
+            c.add(Calendar.DATE, 1)
+        }
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.timeInMillis, pendingIntent)
+    }
+
+    private fun cancelAlarm() {
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, AlertReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0)
+        alarmManager.cancel(pendingIntent)
+        Toast.makeText(this,"Alarm Cancelled", Toast.LENGTH_SHORT).show();
+    }
+
+
+
+     //Test
+
+
 
     override fun onPause() {
         super.onPause()
