@@ -145,109 +145,20 @@ class MainActivity : BaseActivity() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-
-         //Service of TimeLine
-//        val intentActivateService = Intent(this, TimeLineService::class.java)
-//        intentActivateService.putExtra("TimelineTasks", mDataList);
-//        startService(intentActivateService);
 
 
-
-
-
-    }
-
-
-    private fun upcomingTaskNotification()
-    {
-
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(this, TimelineAlarmManager::class.java);
-        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-
-
-//        var startBroadcastButton = findViewById<Button>(R.id.startBroadcastButton);
-//        var cancelBroadcastButton = findViewById<Button>(R.id.cancelBroadcastButton);
-
-
-//        startBroadcastButton.setOnClickListener {
-//            var myCalendar = Calendar.getInstance();
-//            var rightnow = Calendar.getInstance()
-//            var taskHour : Int
-//            var taskMinute : Int
-//
-//            var taskHourNotif : Int?
-//            var taskMinuteNotif : Int?
-//            taskHourNotif = null
-//            taskMinuteNotif = null
-//
-//            var taskNotifTitle : String?
-//            var taskNotifText : String?
-//            taskNotifTitle = null;
-//            taskNotifText  = null;
-//
-//            for (i in 0 until mDataList.size)
-//            {
-//
-//                taskHour = Integer.parseInt(mDataList[i].date.substring(0, 2))
-//                taskMinute = Integer.parseInt(mDataList[i].date.substring(3, 5))
-//
-//                if(taskHour > rightnow.get(Calendar.HOUR_OF_DAY)  )
-//                {
-//                    taskHourNotif = taskHour
-//                    taskMinuteNotif = taskMinute
-//                    taskNotifTitle = mDataList[i].message;
-//                    taskNotifText = mDataList[i].date;
-//                    break;
-//                }
-//                else if (taskHour == rightnow.get(Calendar.HOUR_OF_DAY)  && taskMinute > rightnow.get(Calendar.MINUTE) )
-//                {
-//                    taskHourNotif = taskHour
-//                    taskMinuteNotif = taskMinute
-//                    taskNotifTitle = mDataList[i].message;
-//                    taskNotifText = mDataList[i].date;
-//                    break;
-//                }
-//            }
-//
-//            if(taskHourNotif != null && taskMinuteNotif != null)
-//            {
-//                myCalendar.set(Calendar.HOUR_OF_DAY, taskHourNotif);
-//                myCalendar.set(Calendar.MINUTE, taskMinuteNotif);
-//                myCalendar.set(Calendar.SECOND, 0);
-//
-//                if(taskNotifTitle != null && taskNotifText != null)
-//                {
-//                    startAlarm(myCalendar, taskNotifTitle, taskNotifText);
-//                }
-//            }
-//
-////            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() , AlarmManager.INTERVAL_HALF_HOUR ,pendingIntent);
-//        }
-//
-//        cancelBroadcastButton.setOnClickListener {
-//            alarmManager.cancel(pendingIntent);
-//        }
-    }
-
-
-    //TEST
-    open fun getRandomNumber(min: Int, max: Int): Int {
-        // min (inclusive) and max (exclusive)
-        val r = Random()
-        return r.nextInt(max - min) + min
-    }
-    //
-
-    private fun startAlarm(c: Calendar, taskTitle: String, taskText: String) {
+    private fun startAlarm(c: Calendar, taskTitle: String, taskText: String, requestCode: Int) {
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, AlertReceiver::class.java)
         intent.putExtra("TaskTitle", taskTitle);
         intent.putExtra("TaskText", taskText);
-        val pendingIntent = PendingIntent.getBroadcast(this, getRandomNumber(-10000, 10000),
-                intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val pendingIntent = PendingIntent.getBroadcast(
+                this,
+                requestCode,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT)
+
         if (c.before(Calendar.getInstance())) {
             c.add(Calendar.DATE, 1);
         }
@@ -255,10 +166,10 @@ class MainActivity : BaseActivity() {
         Toast.makeText(this, "Alarm set successfully", Toast.LENGTH_SHORT).show()
     }
 
-    private fun cancelAlarm() {
+    private fun cancelAlarm(requestCode: Int) {
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, AlertReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(this, requestCode, intent, 0)
         alarmManager.cancel(pendingIntent)
         Toast.makeText(this,"Alarm Cancelled", Toast.LENGTH_SHORT).show();
     }
@@ -297,6 +208,9 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    private fun generateTimeBasedInt() : Int {
+        return (System.currentTimeMillis()/1000).toInt();
+    }
 
     var newTaskReceived = false
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -311,13 +225,17 @@ class MainActivity : BaseActivity() {
                     receivedTaskDes = data.getStringExtra("taskDes")
                     receivedTaskTime = data.getStringExtra("taskTime")
                     newTaskReceived = true
-                    mDataList.add(TimeLineModel(receivedTaskDes, receivedTaskTime, OrderStatus.ACTIVE))
+
+                    var newTask = TimeLineModel(receivedTaskDes, receivedTaskTime, generateTimeBasedInt(), OrderStatus.ACTIVE);
+
+                    mDataList.add(newTask)
+
                     //Add Task to Notification List
                     myCalendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(receivedTaskTime.substring(0,2)));
                     myCalendar.set(Calendar.MINUTE, Integer.parseInt(receivedTaskTime.substring(3,5)));
                     myCalendar.set(Calendar.SECOND, 0);
 
-                    startAlarm(myCalendar, receivedTaskDes, receivedTaskTime)
+                    startAlarm(myCalendar, newTask.message, newTask.date, newTask.alarmRequestCode)
                     //
                     sortingDataListItems()
                     recyclerView.adapter = TimeLineAdapter(mDataList, mAttributes)
@@ -334,14 +252,20 @@ class MainActivity : BaseActivity() {
                     receivedTaskTime = data.getStringExtra("taskTimeEdit")
                     receivedTaskEditPos = data.getIntExtra("taskPosEdit", 0)
                     newTaskReceived = true
+
+                    var oldTask = mDataList.elementAt(receivedTaskEditPos)
+                    cancelAlarm(oldTask.alarmRequestCode)
                     mDataList.removeAt(receivedTaskEditPos)
-                    mDataList.add(TimeLineModel(receivedTaskDes, receivedTaskTime, OrderStatus.ACTIVE))
+
+                    var newTask = TimeLineModel(receivedTaskDes, receivedTaskTime, generateTimeBasedInt(), OrderStatus.ACTIVE)
+
+                    mDataList.add(newTask)
 
                     //Add Task to Notification List
                     myCalendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(receivedTaskTime.substring(0,2)));
                     myCalendar.set(Calendar.MINUTE, Integer.parseInt(receivedTaskTime.substring(3,5)));
                     myCalendar.set(Calendar.SECOND, 0);
-                    startAlarm(myCalendar, receivedTaskDes, receivedTaskTime)
+                    startAlarm(myCalendar, newTask.message, newTask.date, newTask.alarmRequestCode)
                     //
 
                     sortingDataListItems()
@@ -351,7 +275,11 @@ class MainActivity : BaseActivity() {
                 if (data != null) {
                     receivedTaskEditPos = data.getIntExtra("taskPosEdit", 0)
                     newTaskReceived = true
+
+                    var oldTask = mDataList.elementAt(receivedTaskEditPos)
+                    cancelAlarm(oldTask.alarmRequestCode)
                     mDataList.removeAt(receivedTaskEditPos)
+
                     sortingDataListItems()
                     recyclerView.adapter = TimeLineAdapter(mDataList, mAttributes)
                     Toast.makeText(applicationContext, "Deleted a Task", Toast.LENGTH_SHORT).show()
