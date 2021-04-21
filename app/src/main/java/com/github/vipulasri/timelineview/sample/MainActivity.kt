@@ -68,10 +68,6 @@ class MainActivity : BaseActivity() {
             startActivityForResult(intentNewTask, NEW_TASK_REQUEST)
         }
 
-        // calling method to load data
-        // from shared prefs.
-
-
         // Yellow Fox
 
 
