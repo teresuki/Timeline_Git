@@ -26,6 +26,7 @@
 
         <receiver android:name=".TimelineAlarmManager"></receiver>
         <receiver android:name=".AlertReceiver" ></receiver>
+        <service android:name=".TimeLineService"></service>
 
 
 
