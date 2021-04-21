@@ -7,11 +7,11 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="100dp"
-        android:layout_height="140dp"
+        android:layout_width="77dp"
+        android:layout_height="136dp"
         android:layout_margin="10dp"
-        app:contentPadding="10dp"
-        app:cardBackgroundColor="@color/colorGrey50">
+        app:cardBackgroundColor="@color/orange1"
+        app:contentPadding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,19 +21,20 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/text_timeline_date"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:textColor="#4A4A4A"
                 android:textSize="12sp"
                 tools:text="24 JAN" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:id="@+id/text_timeline_title"
+                android:layout_width="match_parent"
+                android:layout_height="82dp"
+                android:layout_marginTop="5dp"
                 android:ellipsize="end"
-                android:textColor="@android:color/black"
+                android:textColor="@color/colorWhite"
                 tools:text="Order Successfully Completed" />
 
         </LinearLayout>
@@ -45,11 +46,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        app:markerSize="20dp"
-        app:lineWidth="2dp"
-        app:startLineColor="@color/colorAccent"
-        app:endLineColor="@color/colorAccent"
+        app:endLineColor="@color/orange2"
         app:lineOrientation="horizontal"
-        app:lineStyle="dash" />
+        app:lineStyle="dash"
+        app:lineWidth="2dp"
+        app:markerSize="20dp"
+        app:startLineColor="@color/orange2" />
 
 </LinearLayout>

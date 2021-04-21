@@ -23,10 +23,11 @@
                 style="@style/TextAppearance.MaterialComponents.Headline6"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="#FF5722"
+                android:clickable="false"
                 android:gravity="center"
                 android:text="@string/app_name"
-                android:textColor="@color/primaryText"
-                android:clickable="false" />
+                android:textColor="#F8F8F8" />
 
         </FrameLayout>
 
@@ -56,25 +57,25 @@
         style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
         android:layout_width="wrap_content"
         android:layout_height="56dp"
-        android:elevation="4dp"
-        android:paddingStart="18sp"
-        android:paddingLeft="18dp"
-        android:paddingRight="18dp"
-        android:paddingEnd="18dp"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:text="Options"
+        android:elevation="4dp"
+        android:fontFamily="sans-serif-condensed"
+        android:paddingStart="18sp"
+        android:paddingLeft="18dp"
+        android:paddingEnd="18dp"
+        android:paddingRight="18dp"
+        android:text="Setting"
         android:textColor="@android:color/white"
         android:textSize="12sp"
-        android:fontFamily="sans-serif-condensed"
-        app:fontFamily="sans-serif-condensed"
-        app:backgroundTint="?attr/colorAccent"
-        app:rippleColor="@color/tertiaryText"
+        app:backgroundTint="#FF9800"
         app:cornerRadius="32dp"
+        app:fontFamily="sans-serif-condensed"
         app:icon="@drawable/ic_settings"
         app:iconPadding="8dp"
         app:iconSize="18dp"
-        app:iconTint="@android:color/white" />
+        app:iconTint="@android:color/white"
+        app:rippleColor="@color/tertiaryText" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -104,6 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="Add"
+            app:backgroundTint="#FF9800"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.97"
             app:layout_constraintStart_toStartOf="parent"

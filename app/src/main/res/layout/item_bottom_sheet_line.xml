@@ -7,6 +7,8 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_line_heading"
         style="@style/Heading"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:text="@string/line"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -15,6 +17,8 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_line_width"
         style="@style/Label"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:text="@string/width"
         app:layout_constraintBottom_toBottomOf="@id/seek_line_width"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,10 +38,12 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_start_line_color"
         style="@style/Label"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:text="@string/start_line_color"
+        app:layout_constraintBottom_toBottomOf="@id/image_start_line_color"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/image_start_line_color"
-        app:layout_constraintBottom_toBottomOf="@id/image_start_line_color" />
+        app:layout_constraintTop_toTopOf="@id/image_start_line_color" />
 
     <com.github.vipulasri.timelineview.sample.widgets.BorderedCircle
         android:id="@+id/image_start_line_color"
@@ -50,10 +56,12 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_end_line_color"
         style="@style/Label"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:text="@string/end_line_color"
+        app:layout_constraintBottom_toBottomOf="@id/image_end_line_color"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/image_end_line_color"
-        app:layout_constraintBottom_toBottomOf="@id/image_end_line_color"/>
+        app:layout_constraintTop_toTopOf="@id/image_end_line_color" />
 
     <com.github.vipulasri.timelineview.sample.widgets.BorderedCircle
         android:id="@+id/image_end_line_color"
@@ -66,6 +74,8 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_line_type"
         style="@style/Label"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:text="@string/style"
         app:layout_constraintBottom_toBottomOf="@id/spinner_line_type"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,6 +94,8 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_line_dash_width"
         style="@style/Label"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="5dp"
         android:text="@string/dash_length"
         app:layout_constraintBottom_toBottomOf="@id/seek_line_dash_width"
@@ -104,6 +116,8 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_line_dash_gap"
         style="@style/Label"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="5dp"
         android:text="@string/dash_gap"
         app:layout_constraintBottom_toBottomOf="@id/seek_line_dash_gap"

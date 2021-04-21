@@ -13,6 +13,8 @@
     <color name="colorGrey300">#e0e0e0</color>
     <color name="colorGrey400">#bdbdbd</color>
     <color name="colorGrey500">#9e9e9e</color>
+    <color name="orange1">#FF9800</color>
+    <color name="orange2">#FF5722</color>
 
     <color name="primaryText">#de000000</color> <!-- 87% -->
     <color name="secondaryText">#8a000000</color> <!-- 54% -->
