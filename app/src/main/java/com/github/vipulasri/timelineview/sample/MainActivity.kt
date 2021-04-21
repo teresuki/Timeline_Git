@@ -168,68 +168,68 @@ class MainActivity : BaseActivity() {
         val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
 
-        var startBroadcastButton = findViewById<Button>(R.id.startBroadcastButton);
-        var cancelBroadcastButton = findViewById<Button>(R.id.cancelBroadcastButton);
+//        var startBroadcastButton = findViewById<Button>(R.id.startBroadcastButton);
+//        var cancelBroadcastButton = findViewById<Button>(R.id.cancelBroadcastButton);
 
 
-        startBroadcastButton.setOnClickListener {
-            var myCalendar = Calendar.getInstance();
-            var rightnow = Calendar.getInstance()
-            var taskHour : Int
-            var taskMinute : Int
-
-            var taskHourNotif : Int?
-            var taskMinuteNotif : Int?
-            taskHourNotif = null
-            taskMinuteNotif = null
-
-            var taskNotifTitle : String?
-            var taskNotifText : String?
-            taskNotifTitle = null;
-            taskNotifText  = null;
-
-            for (i in 0 until mDataList.size)
-            {
-
-                taskHour = Integer.parseInt(mDataList[i].date.substring(0, 2))
-                taskMinute = Integer.parseInt(mDataList[i].date.substring(3, 5))
-
-                if(taskHour > rightnow.get(Calendar.HOUR_OF_DAY)  )
-                {
-                    taskHourNotif = taskHour
-                    taskMinuteNotif = taskMinute
-                    taskNotifTitle = mDataList[i].message;
-                    taskNotifText = mDataList[i].date;
-                    break;
-                }
-                else if (taskHour == rightnow.get(Calendar.HOUR_OF_DAY)  && taskMinute > rightnow.get(Calendar.MINUTE) )
-                {
-                    taskHourNotif = taskHour
-                    taskMinuteNotif = taskMinute
-                    taskNotifTitle = mDataList[i].message;
-                    taskNotifText = mDataList[i].date;
-                    break;
-                }
-            }
-
-            if(taskHourNotif != null && taskMinuteNotif != null)
-            {
-                myCalendar.set(Calendar.HOUR_OF_DAY, taskHourNotif);
-                myCalendar.set(Calendar.MINUTE, taskMinuteNotif);
-                myCalendar.set(Calendar.SECOND, 0);
-
-                if(taskNotifTitle != null && taskNotifText != null)
-                {
-                    startAlarm(myCalendar, taskNotifTitle, taskNotifText);
-                }
-            }
-
-//            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() , AlarmManager.INTERVAL_HALF_HOUR ,pendingIntent);
-        }
-
-        cancelBroadcastButton.setOnClickListener {
-            alarmManager.cancel(pendingIntent);
-        }
+//        startBroadcastButton.setOnClickListener {
+//            var myCalendar = Calendar.getInstance();
+//            var rightnow = Calendar.getInstance()
+//            var taskHour : Int
+//            var taskMinute : Int
+//
+//            var taskHourNotif : Int?
+//            var taskMinuteNotif : Int?
+//            taskHourNotif = null
+//            taskMinuteNotif = null
+//
+//            var taskNotifTitle : String?
+//            var taskNotifText : String?
+//            taskNotifTitle = null;
+//            taskNotifText  = null;
+//
+//            for (i in 0 until mDataList.size)
+//            {
+//
+//                taskHour = Integer.parseInt(mDataList[i].date.substring(0, 2))
+//                taskMinute = Integer.parseInt(mDataList[i].date.substring(3, 5))
+//
+//                if(taskHour > rightnow.get(Calendar.HOUR_OF_DAY)  )
+//                {
+//                    taskHourNotif = taskHour
+//                    taskMinuteNotif = taskMinute
+//                    taskNotifTitle = mDataList[i].message;
+//                    taskNotifText = mDataList[i].date;
+//                    break;
+//                }
+//                else if (taskHour == rightnow.get(Calendar.HOUR_OF_DAY)  && taskMinute > rightnow.get(Calendar.MINUTE) )
+//                {
+//                    taskHourNotif = taskHour
+//                    taskMinuteNotif = taskMinute
+//                    taskNotifTitle = mDataList[i].message;
+//                    taskNotifText = mDataList[i].date;
+//                    break;
+//                }
+//            }
+//
+//            if(taskHourNotif != null && taskMinuteNotif != null)
+//            {
+//                myCalendar.set(Calendar.HOUR_OF_DAY, taskHourNotif);
+//                myCalendar.set(Calendar.MINUTE, taskMinuteNotif);
+//                myCalendar.set(Calendar.SECOND, 0);
+//
+//                if(taskNotifTitle != null && taskNotifText != null)
+//                {
+//                    startAlarm(myCalendar, taskNotifTitle, taskNotifText);
+//                }
+//            }
+//
+////            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() , AlarmManager.INTERVAL_HALF_HOUR ,pendingIntent);
+//        }
+//
+//        cancelBroadcastButton.setOnClickListener {
+//            alarmManager.cancel(pendingIntent);
+//        }
     }
 
 
