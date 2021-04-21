@@ -26,14 +26,9 @@
 
         <receiver android:name=".TimelineAlarmManager"></receiver>
         <receiver android:name=".AlertReceiver" ></receiver>
-        <service android:name=".TimeLineService"></service>
 
 
-
-
-
-
-<!--        <activity-->
+        <!--        <activity-->
 <!--            android:name="com.example.Ad"-->
 <!--            android:theme="@style/AppTheme.NoActionBar"/>-->
     </application>
