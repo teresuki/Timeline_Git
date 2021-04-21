@@ -7,14 +7,20 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_marker_heading"
         style="@style/Heading"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
         android:text="@string/marker"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_marker_size"
         style="@style/Label"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:text="@string/size"
         app:layout_constraintBottom_toBottomOf="@id/seek_marker_size"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,6 +47,8 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_marker_color"
         style="@style/Label"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:text="@string/color"
         app:layout_constraintBottom_toBottomOf="@id/image_marker_color"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,6 +65,8 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_marker_in_center"
         style="@style/Label"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:text="@string/marker_in_center"
         app:layout_constraintBottom_toBottomOf="@id/checkbox_marker_in_center"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,6 +83,8 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_marker_top_padding"
         style="@style/Label"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:text="@string/top_padding"
         app:layout_constraintBottom_toBottomOf="@id/seek_marker_top_padding"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,6 +96,7 @@
         android:layout_marginTop="@dimen/padding"
         app:dsb_max="30"
         app:dsb_min="0"
+        app:dsb_trackColor="#FFFFFF"
         app:dsb_value="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/text_marker_top_padding"
@@ -92,6 +105,8 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_marker_bottom_padding"
         style="@style/Label"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:text="@string/bottom_padding"
         app:layout_constraintBottom_toBottomOf="@id/seek_marker_bottom_padding"
         app:layout_constraintStart_toStartOf="parent"
@@ -111,6 +126,8 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_marker_left_padding"
         style="@style/Label"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:text="@string/left_padding"
         app:layout_constraintBottom_toBottomOf="@id/seek_marker_left_padding"
         app:layout_constraintStart_toStartOf="parent"
@@ -130,6 +147,8 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_marker_right_padding"
         style="@style/Label"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:text="@string/right_padding"
         app:layout_constraintBottom_toBottomOf="@id/seek_marker_right_padding"
         app:layout_constraintStart_toStartOf="parent"
@@ -161,6 +180,8 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_marker_line_padding"
         style="@style/Label"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:text="@string/line_padding"
         app:layout_constraintBottom_toBottomOf="@id/seek_marker_line_padding"
         app:layout_constraintStart_toStartOf="parent"
