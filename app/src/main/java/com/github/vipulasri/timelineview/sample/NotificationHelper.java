@@ -9,9 +9,15 @@ import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
+import com.github.vipulasri.timelineview.sample.model.TimeLineModel;
+
+import java.util.ArrayList;
+
+
 public class NotificationHelper extends ContextWrapper {
     public static final String channelID = "channelID";
     public static final String channelName = "Channel Name";
+    public ArrayList<TimeLineModel> mDataList;
     private NotificationManager mManager;
     public NotificationHelper(Context base) {
         super(base);
@@ -30,10 +36,11 @@ public class NotificationHelper extends ContextWrapper {
         }
         return mManager;
     }
-    public NotificationCompat.Builder getChannelNotification() {
+    public NotificationCompat.Builder getChannelNotification(String taskTitle, String taskText) {
+
         return new NotificationCompat.Builder(getApplicationContext(), channelID)
-                .setContentTitle("Alarm!")
-                .setContentText("Your AlarmManager is working.")
+                .setContentTitle(taskTitle)
+                .setContentText(taskText)
                 .setSmallIcon(R.drawable.notification_icon);
     }
 }
