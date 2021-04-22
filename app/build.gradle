@@ -8,7 +8,7 @@ android {
     buildToolsVersion versions.buildTools
 
     defaultConfig {
-        applicationId "com.github.vipulasri.timelineview.sample"
+        applicationId "com.github.teresuki.timelineview.sample"
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
         versionCode 5

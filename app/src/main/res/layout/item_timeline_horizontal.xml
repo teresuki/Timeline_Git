@@ -41,7 +41,7 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <com.github.vipulasri.timelineview.TimelineView
+    <com.github.teresuki.timelineview.TimelineView
         android:id="@+id/timeline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
