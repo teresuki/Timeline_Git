@@ -89,15 +89,15 @@ class MainActivity : BaseActivity() {
         //default values
         mAttributes = TimelineAttributes(
                 markerSize = dpToPx(20f),
-                markerColor = getColorCompat(R.color.material_grey_500),
+                markerColor = getColorCompat(R.color.orange1),
                 markerInCenter = true,
                 markerLeftPadding = dpToPx(0f),
                 markerTopPadding = dpToPx(0f),
                 markerRightPadding = dpToPx(0f),
                 markerBottomPadding = dpToPx(0f),
                 linePadding = dpToPx(2f),
-                startLineColor = getColorCompat(R.color.colorAccent),
-                endLineColor = getColorCompat(R.color.colorAccent),
+                startLineColor = getColorCompat(R.color.orange2),
+                endLineColor = getColorCompat(R.color.orange2),
                 lineStyle = TimelineView.LineStyle.NORMAL,
                 lineWidth = dpToPx(2f),
                 lineDashWidth = dpToPx(4f),
