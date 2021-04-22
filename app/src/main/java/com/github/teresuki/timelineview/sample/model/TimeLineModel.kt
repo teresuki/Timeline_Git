@@ -1,4 +1,4 @@
-package com.github.vipulasri.timelineview.sample.model
+package com.github.teresuki.timelineview.sample.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

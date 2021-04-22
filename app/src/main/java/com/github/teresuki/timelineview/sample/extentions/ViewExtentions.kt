@@ -1,10 +1,10 @@
-package com.github.vipulasri.timelineview.sample.extentions
+package com.github.teresuki.timelineview.sample.extentions
 
 import android.content.res.Resources
 import android.util.TypedValue
 import android.view.View
 import androidx.core.content.ContextCompat
-import com.github.vipulasri.timelineview.sample.TimelineApplication
+import com.github.teresuki.timelineview.sample.TimelineApplication
 
 fun dpToPx(dp: Float): Int {
     return dpToPx(dp, TimelineApplication.instance.resources)

@@ -1,4 +1,4 @@
-package com.github.vipulasri.timelineview.sample.extentions
+package com.github.teresuki.timelineview.sample.extentions
 
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
