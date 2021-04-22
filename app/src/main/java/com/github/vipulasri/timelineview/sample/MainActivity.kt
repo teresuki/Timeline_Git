@@ -32,6 +32,7 @@ import kotlin.collections.ArrayList
 
 /**
  * Created by Vipul Asri on 07-06-2016.
+ * Modified by Teresuki Kitsune on 22-04-2021
  */
 
 //REQUEST CODE
@@ -49,6 +50,7 @@ class MainActivity : BaseActivity() {
     private lateinit var mAttributes: TimelineAttributes
 
 
+    //Variables used to receive Data from Add Task and Edit Task
     var receivedTaskDes: String = ""
     var receivedTaskTime: String = ""
     var receivedTaskEditPos: Int = 0
@@ -60,30 +62,13 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentViewWithoutInject(R.layout.activity_main)
 
-        // Yellow Fox
 
-
-
-
-
-
-
-
-
-
-
-        //TEST
-
-
+        //Add Task Button
         var addTaskButton = findViewById<Button>(R.id.buttonNewTask)
         addTaskButton.setOnClickListener {
-            //startActivity(Intent(this, AddTaskActivity::class.java))
-
             val intentNewTask = Intent(this, AddTaskActivity::class.java)
             startActivityForResult(intentNewTask, NEW_TASK_REQUEST)
         }
-
-        // Yellow Fox
 
 
         //default values
@@ -104,30 +89,19 @@ class MainActivity : BaseActivity() {
                 lineDashGap = dpToPx(2f)
         )
 
-        //YellowFox
+
+        //Load the Tasks from the Previous Activity
         loadData()
-        //YellowFox
 
 
-        setDataListItems()
+        // Old initialization of Example Tasks
+//        setDataListItems()
+
+        //The visual implementation of the Task so you can see them as List form.
         initRecyclerView()
 
 
-
-        //TEST
-
-        //Start Service of TimeLine
-//        val intentActivateService = Intent(this, TimeLineService::class.java)
-//
-//
-//        intentActivateService.putExtra("TimelineTasks", mDataList);
-//        startService(intentActivateService);
-
-        //TEST
-
-
-        //action_example_activity.setOnClickListener { startActivity(Intent(this, ExampleActivity::class.java)) }
-
+        //Options
         fab_options.setOnClickListener {
             TimelineAttributesBottomSheet.showDialog(supportFragmentManager, mAttributes, object : TimelineAttributesBottomSheet.Callbacks {
                 override fun onAttributesChanged(attributes: TimelineAttributes) {
@@ -146,36 +120,6 @@ class MainActivity : BaseActivity() {
     }
 
 
-
-    private fun startAlarm(c: Calendar, taskTitle: String, taskText: String, requestCode: Int) {
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(this, AlertReceiver::class.java)
-        intent.putExtra("TaskTitle", taskTitle);
-        intent.putExtra("TaskText", taskText);
-
-        val pendingIntent = PendingIntent.getBroadcast(
-                this,
-                requestCode,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT)
-
-        if (c.before(Calendar.getInstance())) {
-            c.add(Calendar.DATE, 1);
-        }
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.timeInMillis, pendingIntent)
-        Toast.makeText(this, "Alarm set successfully", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun cancelAlarm(requestCode: Int) {
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(this, AlertReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(this, requestCode, intent, 0)
-        alarmManager.cancel(pendingIntent)
-        Toast.makeText(this,"Alarm Cancelled", Toast.LENGTH_SHORT).show();
-    }
-
-
-     //Test
 
 
     override fun onPause() {
@@ -208,11 +152,40 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    private fun startAlarm(c: Calendar, taskTitle: String, taskText: String, requestCode: Int) {
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, AlertReceiver::class.java)
+        intent.putExtra("TaskTitle", taskTitle);
+        intent.putExtra("TaskText", taskText);
+
+        val pendingIntent = PendingIntent.getBroadcast(
+                this,
+                requestCode,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT)
+
+        if (c.before(Calendar.getInstance())) {
+            c.add(Calendar.DATE, 1);
+        }
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.timeInMillis, pendingIntent)
+        Toast.makeText(this, "Alarm set successfully", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun cancelAlarm(requestCode: Int) {
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, AlertReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(this, requestCode, intent, 0)
+        alarmManager.cancel(pendingIntent)
+        Toast.makeText(this,"Alarm Cancelled", Toast.LENGTH_SHORT).show();
+    }
+
+
+    //Used to Generate Distinct Request Code for Alarm for Tasks
     private fun generateTimeBasedInt() : Int {
         return (System.currentTimeMillis()/1000).toInt();
     }
 
-    var newTaskReceived = false
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -224,7 +197,7 @@ class MainActivity : BaseActivity() {
                 if (data != null) {
                     receivedTaskDes = data.getStringExtra("taskDes")
                     receivedTaskTime = data.getStringExtra("taskTime")
-                    newTaskReceived = true
+
 
                     var newTask = TimeLineModel(receivedTaskDes, receivedTaskTime, generateTimeBasedInt(), OrderStatus.ACTIVE);
 
@@ -240,7 +213,6 @@ class MainActivity : BaseActivity() {
                         startAlarm(myCalendar, newTask.message, newTask.date, newTask.alarmRequestCode)
                     }
 
-                    //
                     sortingDataListItems()
                     recyclerView.adapter = TimeLineAdapter(mDataList, mAttributes)
                 }
@@ -255,8 +227,8 @@ class MainActivity : BaseActivity() {
                     receivedTaskDes = data.getStringExtra("taskDesEdit")
                     receivedTaskTime = data.getStringExtra("taskTimeEdit")
                     receivedTaskEditPos = data.getIntExtra("taskPosEdit", 0)
-                    newTaskReceived = true
 
+                    //Remove the old Task and its Alarm
                     var oldTask = mDataList.elementAt(receivedTaskEditPos)
                     cancelAlarm(oldTask.alarmRequestCode)
                     mDataList.removeAt(receivedTaskEditPos)
@@ -274,7 +246,6 @@ class MainActivity : BaseActivity() {
                         myCalendar.set(Calendar.SECOND, 0);
                         startAlarm(myCalendar, newTask.message, newTask.date, newTask.alarmRequestCode)
                     }
-                    //
 
                     sortingDataListItems()
                     recyclerView.adapter = TimeLineAdapter(mDataList, mAttributes)
@@ -282,8 +253,8 @@ class MainActivity : BaseActivity() {
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 if (data != null) {
                     receivedTaskEditPos = data.getIntExtra("taskPosEdit", 0)
-                    newTaskReceived = true
 
+                    //Remove the old Task and its Alarm
                     var oldTask = mDataList.elementAt(receivedTaskEditPos)
                     cancelAlarm(oldTask.alarmRequestCode)
                     mDataList.removeAt(receivedTaskEditPos)
@@ -315,12 +286,9 @@ class MainActivity : BaseActivity() {
                     mDataList[j] = temp[1]
                     temp.removeAt(1)
                     temp.removeAt(0)
-                    taskMinute1 = ""
-                    taskMinute2 = "" //Safety Measure
+
                 }
-
             }// end j
-
         }// end i
     }
 

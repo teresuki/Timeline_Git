@@ -37,20 +37,16 @@ public class EditTaskActivity extends AppCompatActivity {
         deleteTask = findViewById(R.id.buttonDeleteTask);
 
         //Get Info From Current Task (Date, Time and Position)
-
         Intent intentGetTask = getIntent();
         String getTime = intentGetTask.getStringExtra("curTaskTime");
-
-
-
         String getDescription = intentGetTask.getStringExtra("curTaskDes");
         int getPosition = intentGetTask.getIntExtra("curTaskPos", 0);
 
         //Display the current Time and Description on the TextView
         taskTimeStringEdit.setText(getTime);
         taskDescriptionEdit.setText(getDescription);
-        //
 
+        //Convert String Time value to TIME type
         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
         Date date = null;
         try {
@@ -61,10 +57,7 @@ public class EditTaskActivity extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         currentTime = date;
-
-        //Get Info From Current Task (Date and Time)
 
         taskTimeEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,10 +67,7 @@ public class EditTaskActivity extends AppCompatActivity {
         });
 
 
-        final String passingTaskDescription = taskDescriptionEdit.getText().toString();
-        final String passingTaskTime = taskTimeStringEdit.getText().toString();
         final int passingTaskPosition = getPosition;
-
         editTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,8 +131,5 @@ public class EditTaskActivity extends AppCompatActivity {
                 }, hour, minute, true);
 
         timePickerDialog.show();
-
     }
-
-
 }
