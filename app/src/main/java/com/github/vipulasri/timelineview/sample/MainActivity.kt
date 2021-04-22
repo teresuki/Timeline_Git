@@ -231,11 +231,15 @@ class MainActivity : BaseActivity() {
                     mDataList.add(newTask)
 
                     //Add Task to Notification List
-                    myCalendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(receivedTaskTime.substring(0,2)));
-                    myCalendar.set(Calendar.MINUTE, Integer.parseInt(receivedTaskTime.substring(3,5)));
-                    myCalendar.set(Calendar.SECOND, 0);
+                    //Check for null time
+                    if(newTask.date != "Start Time")
+                    {
+                        myCalendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(receivedTaskTime.substring(0,2)));
+                        myCalendar.set(Calendar.MINUTE, Integer.parseInt(receivedTaskTime.substring(3,5)));
+                        myCalendar.set(Calendar.SECOND, 0);
+                        startAlarm(myCalendar, newTask.message, newTask.date, newTask.alarmRequestCode)
+                    }
 
-                    startAlarm(myCalendar, newTask.message, newTask.date, newTask.alarmRequestCode)
                     //
                     sortingDataListItems()
                     recyclerView.adapter = TimeLineAdapter(mDataList, mAttributes)
@@ -262,10 +266,14 @@ class MainActivity : BaseActivity() {
                     mDataList.add(newTask)
 
                     //Add Task to Notification List
-                    myCalendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(receivedTaskTime.substring(0,2)));
-                    myCalendar.set(Calendar.MINUTE, Integer.parseInt(receivedTaskTime.substring(3,5)));
-                    myCalendar.set(Calendar.SECOND, 0);
-                    startAlarm(myCalendar, newTask.message, newTask.date, newTask.alarmRequestCode)
+                    //Check for null time
+                    if(newTask.date != "Start Time")
+                    {
+                        myCalendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(receivedTaskTime.substring(0,2)));
+                        myCalendar.set(Calendar.MINUTE, Integer.parseInt(receivedTaskTime.substring(3,5)));
+                        myCalendar.set(Calendar.SECOND, 0);
+                        startAlarm(myCalendar, newTask.message, newTask.date, newTask.alarmRequestCode)
+                    }
                     //
 
                     sortingDataListItems()
