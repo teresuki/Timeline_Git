@@ -9,9 +9,11 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.teresuki.timelineview.TimelineView
@@ -152,6 +154,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun startAlarm(c: Calendar, taskTitle: String, taskText: String, requestCode: Int) {
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, AlertReceiver::class.java)
@@ -186,6 +189,7 @@ class MainActivity : BaseActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -201,7 +205,7 @@ class MainActivity : BaseActivity() {
 
                     var newTask = TimeLineModel(receivedTaskDes, receivedTaskTime, generateTimeBasedInt(), OrderStatus.ACTIVE);
 
-                    mDataList.add(newTask)
+                    mDataList.add(newTaskAddPosition(receivedTaskTime), newTask)
 
                     //Add Task to Notification List
                     //Check for null time
@@ -213,7 +217,6 @@ class MainActivity : BaseActivity() {
                         startAlarm(myCalendar, newTask.message, newTask.date, newTask.alarmRequestCode)
                     }
 
-                    sortingDataListItems()
                     recyclerView.adapter = TimeLineAdapter(mDataList, mAttributes)
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
@@ -235,7 +238,7 @@ class MainActivity : BaseActivity() {
 
                     var newTask = TimeLineModel(receivedTaskDes, receivedTaskTime, generateTimeBasedInt(), OrderStatus.ACTIVE)
 
-                    mDataList.add(newTask)
+                    mDataList.add(newTaskAddPosition(receivedTaskTime) ,newTask)
 
                     //Add Task to Notification List
                     //Check for null time
@@ -247,7 +250,6 @@ class MainActivity : BaseActivity() {
                         startAlarm(myCalendar, newTask.message, newTask.date, newTask.alarmRequestCode)
                     }
 
-                    sortingDataListItems()
                     recyclerView.adapter = TimeLineAdapter(mDataList, mAttributes)
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
@@ -259,7 +261,6 @@ class MainActivity : BaseActivity() {
                     cancelAlarm(oldTask.alarmRequestCode)
                     mDataList.removeAt(receivedTaskEditPos)
 
-                    sortingDataListItems()
                     recyclerView.adapter = TimeLineAdapter(mDataList, mAttributes)
                     Toast.makeText(applicationContext, "Deleted a Task", Toast.LENGTH_SHORT).show()
                 }
@@ -268,30 +269,26 @@ class MainActivity : BaseActivity() {
     }
 
 
-    fun sortingDataListItems() {
-        var temp = ArrayList<TimeLineModel>()
-        var taskMinute1 = ""
-        var taskMinute2 = ""
+    //Insertion Sort
+    fun newTaskAddPosition(newTaskTime : String) : Int {
+        var oldTaskMinute = ""
+        var newTaskMinute : String
+        var insertIndexOfTask : Int = 0
+        newTaskMinute = newTaskTime.substring(0, 2) + newTaskTime.substring(3, 5)
         val n: Int = mDataList.size
-        for (i in 0 until n - 1) {
-            for (j in i + 1 until n) {
-                taskMinute1 = mDataList[i].date[0].toString() + mDataList[i].date[1].toString() + mDataList[i].date[3].toString() + mDataList[i].date[4].toString()
-                taskMinute2 = mDataList[j].date[0].toString() + mDataList[j].date[1].toString() + mDataList[j].date[3].toString() + mDataList[j].date[4].toString()
-
-                if (taskMinute1.compareTo(taskMinute2) > 0) {
-                    // swap arr[j+1] and arr[j]o0
-                    temp.add(mDataList[j])
-                    temp.add(mDataList[i])
-                    mDataList[i] = temp[0]
-                    mDataList[j] = temp[1]
-                    temp.removeAt(1)
-                    temp.removeAt(0)
-
-                }
-            }// end j
+        for (i in 0 until n)
+        {
+            oldTaskMinute = mDataList[i].date[0].toString() + mDataList[i].date[1].toString() + mDataList[i].date[3].toString() + mDataList[i].date[4].toString()
+            if (newTaskMinute.compareTo(oldTaskMinute) >= 0)
+            {
+              insertIndexOfTask = i+1
+            }
         }// end i
-    }
 
+
+         return insertIndexOfTask
+
+    }
 
     private fun setDataListItems() {
 
