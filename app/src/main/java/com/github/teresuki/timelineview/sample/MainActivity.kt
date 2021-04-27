@@ -13,6 +13,7 @@ import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
+import android.widget.Toolbar
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -64,6 +65,11 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentViewWithoutInject(R.layout.activity_main)
 
+        //Navigation Menu
+        val myToolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar_timeline)
+        setSupportActionBar(myToolbar)
+
+        //Navigation Menu
 
         //Add Task Button
         var addTaskButton = findViewById<Button>(R.id.buttonNewTask)

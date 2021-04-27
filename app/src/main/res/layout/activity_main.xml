@@ -8,14 +8,15 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.github.teresuki.timelineview.sample.MainActivity"
-    tools:openDrawer="start">
+    >
+    <!-- tools:openDrawer="start"  -->
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <android.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
 
             android:id="@+id/toolbar_timeline"
             android:layout_width="?attr/actionBarSize"
